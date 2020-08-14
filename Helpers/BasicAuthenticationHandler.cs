@@ -35,6 +35,8 @@ namespace WebApi.Helpers
             User user = null;
             try
             {
+                // HTTP Header
+                // Authorization: basic [username]:[password]
                 var authHeader = AuthenticationHeaderValue.Parse(Request.Headers["Authorization"]);
                 var credentialBytes = Convert.FromBase64String(authHeader.Parameter);
                 var credentials = Encoding.UTF8.GetString(credentialBytes).Split(new[] { ':' }, 2);

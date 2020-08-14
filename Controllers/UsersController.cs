@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using WebApi.Services;
 using System.Threading.Tasks;
 using WebApi.Models;
+using System;
 
 namespace WebApi.Controllers
 {
@@ -20,7 +21,7 @@ namespace WebApi.Controllers
 
         [AllowAnonymous]
         [HttpPost("authenticate")]
-        public async Task<IActionResult> Authenticate([FromBody]AuthenticateModel model)
+        public async Task<IActionResult> Authenticate([FromBody] AuthenticateModel model)
         {
             var user = await _userService.Authenticate(model.Username, model.Password);
 
@@ -33,6 +34,12 @@ namespace WebApi.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
+            foreach (var claim in HttpContext.User.Claims)
+            {
+                Console.WriteLine(claim.ToString());
+
+            }
+
             var users = await _userService.GetAll();
             return Ok(users);
         }
